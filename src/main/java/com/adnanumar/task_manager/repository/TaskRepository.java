@@ -22,8 +22,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findOverdueTasks(@Param("userId") Long userId,
                                 @Param("today") LocalDate today);
 
-    // Dashboard stats per project
     @Query("SELECT t.status, COUNT(t) FROM Task t " +
             "WHERE t.project.id = :projectId GROUP BY t.status")
     List<Object[]> countTasksByStatus(@Param("projectId") Long projectId);
+
+    List<Task> findByDueDateAndStatusNot(java.time.LocalDate dueDate, com.adnanumar.task_manager.enums.TaskStatus status);
 }

@@ -93,10 +93,32 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/api/dashboard/my-tasks
 Authorization: Bearer {{token}}
 
-### 12. Delete Task
+### 13. Add a Comment to Task
+# @name addComment
+POST {{baseUrl}}/api/projects/{{projectId}}/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "This is a test comment for the task"
+}
+
+### 14. Get Comments for Task
+GET {{baseUrl}}/api/projects/{{projectId}}/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+
+### 15. Export Project Tasks to Excel
+GET {{baseUrl}}/api/projects/{{projectId}}/reports/excel
+Authorization: Bearer {{token}}
+
+### 16. Export Project Tasks to PDF
+GET {{baseUrl}}/api/projects/{{projectId}}/reports/pdf
+Authorization: Bearer {{token}}
+
+### 17. Delete Task
 DELETE {{baseUrl}}/api/projects/{{projectId}}/tasks/{{taskId}}
 Authorization: Bearer {{token}}
 
-### 13. Delete Project
+### 18. Delete Project
 DELETE {{baseUrl}}/api/projects/{{projectId}}
 Authorization: Bearer {{token}}

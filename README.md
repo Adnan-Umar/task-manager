@@ -199,10 +199,10 @@ Explore the API interactively at:
 
 ## 💡 Future Roadmap
 
+- [x] 💬 **Task Comments**: Real-time discussion and collaboration on tasks.
+- [x] 📊 **Export Reports**: Generate PDF/Excel project summaries.
 - [ ] 📧 **Email Notifications**: Alerts for task deadlines.
 - [ ] 📎 **File Attachments**: Upload documents directly to tasks.
-- [ ] 💬 **Task Comments**: Real-time discussion on tasks.
-- [ ] 📊 **Export Reports**: Generate PDF/Excel project summaries.
 
 ---
 
