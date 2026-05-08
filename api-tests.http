@@ -1,0 +1,102 @@
+### Task Manager API Tests
+# Prerequisite: Install the "REST Client" extension in VS Code
+# You can click "Send Request" above each request.
+
+@baseUrl = http://localhost:8080
+@email = testuser@example.com
+@password = password123
+
+### 1. Register a new user
+# @name register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### 2. Login
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### Extract token from login response
+@token = {{login.response.body.data.token}}
+
+### 3. Get Current User (Me)
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### 4. Create a Project
+# @name createProject
+POST {{baseUrl}}/api/projects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "My Test Project",
+  "description": "This is a test project created via API"
+}
+
+### Extract project ID
+@projectId = {{createProject.response.body.data.id}}
+
+### 5. Get All My Projects
+GET {{baseUrl}}/api/projects
+Authorization: Bearer {{token}}
+
+### 6. Get Project Detail
+GET {{baseUrl}}/api/projects/{{projectId}}
+Authorization: Bearer {{token}}
+
+### 7. Create a Task in Project
+# @name createTask
+POST {{baseUrl}}/api/projects/{{projectId}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "First Test Task",
+  "description": "Do something important",
+  "priority": "HIGH",
+  "dueDate": "2026-12-31"
+}
+
+### Extract task ID
+@taskId = {{createTask.response.body.data.id}}
+
+### 8. Get All Tasks in Project
+GET {{baseUrl}}/api/projects/{{projectId}}/tasks
+Authorization: Bearer {{token}}
+
+### 9. Update Task Status
+PATCH {{baseUrl}}/api/projects/{{projectId}}/tasks/{{taskId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "IN_PROGRESS"
+}
+
+### 10. Get Dashboard Stats
+GET {{baseUrl}}/api/dashboard
+Authorization: Bearer {{token}}
+
+### 11. Get My Assigned Tasks
+GET {{baseUrl}}/api/dashboard/my-tasks
+Authorization: Bearer {{token}}
+
+### 12. Delete Task
+DELETE {{baseUrl}}/api/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+### 13. Delete Project
+DELETE {{baseUrl}}/api/projects/{{projectId}}
+Authorization: Bearer {{token}}
