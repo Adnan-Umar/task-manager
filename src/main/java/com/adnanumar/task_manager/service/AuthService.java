@@ -5,6 +5,8 @@ import com.adnanumar.task_manager.dto.request.RegisterRequest;
 import com.adnanumar.task_manager.dto.response.AuthResponse;
 import com.adnanumar.task_manager.dto.response.UserResponse;
 
+import java.util.List;
+
 public interface AuthService {
 
     AuthResponse register(RegisterRequest request);
@@ -12,4 +14,7 @@ public interface AuthService {
     AuthResponse login(LoginRequest request);
 
     UserResponse getCurrentUser(String email);
+
+    List<UserResponse> searchUsers(String query);
+
 }

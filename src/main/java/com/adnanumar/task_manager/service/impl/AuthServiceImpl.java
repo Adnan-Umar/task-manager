@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -85,5 +87,15 @@ public class AuthServiceImpl implements AuthService {
 
         log.debug("Returning profile for user: {}", user.getEmail());
         return UserResponse.fromEntity(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserResponse> searchUsers(String query) {
+        log.info("Searching for users with query: '{}'", query);
+        return userRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query)
+                .stream()
+                .map(UserResponse::fromEntity)
+                .toList();
     }
 }

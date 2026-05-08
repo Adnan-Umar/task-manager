@@ -59,6 +59,7 @@ public class TaskServiceImpl implements TaskService {
                 .title(request.title()).description(request.description())
                 .priority(request.priority()).dueDate(request.dueDate())
                 .project(project).createdBy(creator).assignedTo(assignedTo)
+                .status(TaskStatus.TODO)
                 .build());
         log.info("Task created — id: {}, projectId: {}", saved.getId(), projectId);
         return TaskResponse.fromEntity(saved);

@@ -39,11 +39,13 @@ public class Project {
     private User createdBy;
 
     // All members of this project
+    @Builder.Default
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<ProjectMember> members = new ArrayList<>();
 
     // All tasks under this project
+    @Builder.Default
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Task> tasks = new ArrayList<>();

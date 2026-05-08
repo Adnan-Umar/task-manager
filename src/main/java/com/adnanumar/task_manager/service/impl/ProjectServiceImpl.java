@@ -41,28 +41,39 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public ProjectResponse createProject(ProjectRequest request, String creatorEmail) {
-        log.info("User '{}' is creating project: '{}'", creatorEmail, request.name());
+        log.info("Starting createProject for user: '{}', project: '{}'", creatorEmail, request.name());
 
         User creator = getUserByEmailOrThrow(creatorEmail);
+        log.debug("Found creator: {} (ID: {})", creator.getEmail(), creator.getId());
 
+        // 1. Initialize Project
         Project project = Project.builder()
                 .name(request.name())
                 .description(request.description())
                 .createdBy(creator)
                 .build();
 
-        Project saved = projectRepository.save(project);
-
-        // Automatically add creator as ADMIN member
+        // 2. Initialize the creator as the first ADMIN member
         ProjectMember adminMember = ProjectMember.builder()
                 .user(creator)
-                .project(saved)
+                .project(project)
                 .role(Role.ADMIN)
                 .build();
-        projectMemberRepository.save(adminMember);
 
-        log.info("Project created — id: {}, name: '{}', creator: '{}'", saved.getId(), saved.getName(), creatorEmail);
-        return ProjectResponse.fromEntity(projectRepository.findById(saved.getId()).orElseThrow());
+        // 3. Link them (bidirectional)
+        if (project.getMembers() == null) {
+            project.setMembers(new java.util.ArrayList<>());
+        }
+        project.getMembers().add(adminMember);
+
+        // 4. Save project (cascades to members due to CascadeType.ALL)
+        log.debug("Saving project entity and flushing...");
+        Project saved = projectRepository.saveAndFlush(project);
+
+        log.info("Project successfully saved with ID: {}. Member count: {}", 
+                saved.getId(), saved.getMembers().size());
+
+        return ProjectResponse.fromEntity(saved);
     }
 
     @Override
