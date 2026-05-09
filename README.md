@@ -4,8 +4,12 @@
   <img src="https://img.shields.io/badge/Spring_Boot-3.4.0-brightgreen.svg" alt="Spring Boot">
   <img src="https://img.shields.io/badge/Java-21-orange.svg" alt="Java 21">
   <img src="https://img.shields.io/badge/PostgreSQL-15+-blue.svg" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Railway-Deployed-blueviolet.svg" alt="Railway">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
-  <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintained">
+</p>
+
+<p align="center">
+  🌐 <b>Live API Base URL</b>: <a href="https://task-manager-production-7681.up.railway.app/">https://task-manager-production-7681.up.railway.app/</a>
 </p>
 
 ---
@@ -25,6 +29,7 @@
 - [📂 Project Structure](#-project-structure)
 - [🚀 Getting Started](#-getting-started)
 - [📖 API Documentation](#-api-documentation)
+- [🚢 Deployment (CI/CD)](#-deployment-cicd)
 - [⚠️ Error Handling](#️-error-handling)
 - [🧪 Testing](#-testing)
 - [💡 Future Roadmap](#-future-roadmap)
@@ -167,22 +172,22 @@ mvn spring-boot:run
 
 ## 📖 API Documentation
 
-Explore the API interactively at:
-👉 **[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)**
+Explore the API interactively via Swagger UI:
 
-### Sample Success Response
-```json
-{
-  "success": true,
-  "message": "Project created successfully",
-  "data": {
-    "id": 1,
-    "name": "Design New Website",
-    "totalMembers": 1,
-    "createdAt": "2026-05-09T10:00:00"
-  }
-}
-```
+- **Local**: 👉 [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- **Production**: 👉 [https://task-manager-production-7681.up.railway.app/swagger-ui/index.html](https://task-manager-production-7681.up.railway.app/swagger-ui/index.html)
+
+---
+
+## 🚢 Deployment (CI/CD)
+
+This project is configured for automated deployment:
+
+1.  **Platform**: [Railway](https://railway.app/)
+2.  **CI/CD**: GitHub Actions (`.github/workflows/deploy.yml`)
+3.  **Docker**: Multi-stage `Dockerfile` (Maven Build + JRE 21 Runtime)
+
+To deploy your own instance, simply fork the repo and set the `RAILWAY_TOKEN` secret in your GitHub repository.
 
 ---
 
@@ -201,8 +206,8 @@ Explore the API interactively at:
 
 - [x] 💬 **Task Comments**: Real-time discussion and collaboration on tasks.
 - [x] 📊 **Export Reports**: Generate PDF/Excel project summaries.
-- [ ] 📧 **Email Notifications**: Alerts for task deadlines.
-- [ ] 📎 **File Attachments**: Upload documents directly to tasks.
+- [x] 📧 **Email Notifications**: Alerts for task deadlines (Today & Tomorrow).
+- [x] 📎 **File Attachments**: Upload and download documents directly to tasks.
 
 ---
 
