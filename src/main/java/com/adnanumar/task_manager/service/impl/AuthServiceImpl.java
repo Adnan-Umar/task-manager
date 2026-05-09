@@ -98,4 +98,34 @@ public class AuthServiceImpl implements AuthService {
                 .map(UserResponse::fromEntity)
                 .toList();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserResponse> getAllUsers() {
+        log.info("Fetching all users for admin panel");
+        return userRepository.findAll()
+                .stream()
+                .map(UserResponse::fromEntity)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public UserResponse updateUserRole(Long userId, String role) {
+        String currentEmail = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User email", currentEmail));
+
+        if (currentUser.getId().equals(userId)) {
+            throw new BadRequestException("You cannot change your own role");
+        }
+
+        log.info("Updating user id: {} to role: {}", userId, role);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User id", userId.toString()));
+        
+        user.setGlobalRole(com.adnanumar.task_manager.enums.Role.valueOf(role));
+        User updatedUser = userRepository.save(user);
+        return UserResponse.fromEntity(updatedUser);
+    }
 }

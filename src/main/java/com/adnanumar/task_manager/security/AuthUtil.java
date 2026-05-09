@@ -32,6 +32,7 @@ public class AuthUtil {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("userId", user.getId().toString())
+                .claim("role", user.getGlobalRole().name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 100))
                 .signWith(getSecretKey())
@@ -47,7 +48,11 @@ public class AuthUtil {
 
         Long userId = Long.parseLong(claims.get("userId", String.class));
         String username = claims.getSubject();
-        return new JwtUserPrincipal(userId, username, new ArrayList<>());
+        String role = claims.get("role", String.class);
+        
+        var authorities = java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + role));
+        
+        return new JwtUserPrincipal(userId, username, new java.util.ArrayList<>(authorities));
     }
 
     public Long getCurrentUserId() {

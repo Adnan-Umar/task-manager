@@ -7,10 +7,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,21 @@ public class UserController {
     public ResponseEntity<ApiResponse<List<UserResponse>>> searchUsers(@RequestParam String query) {
         List<UserResponse> users = authService.searchUsers(query);
         return ResponseEntity.ok(ApiResponse.success("Users found", users));
+    }
+
+    @GetMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
+        List<UserResponse> users = authService.getAllUsers();
+        return ResponseEntity.ok(ApiResponse.success("All users fetched", users));
+    }
+
+    @PatchMapping("/{userId}/role")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUserRole(
+            @PathVariable Long userId,
+            @RequestParam String role) {
+        UserResponse user = authService.updateUserRole(userId, role);
+        return ResponseEntity.ok(ApiResponse.success("User role updated", user));
     }
 }

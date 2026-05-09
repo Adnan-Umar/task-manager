@@ -16,5 +16,8 @@ public interface AuthService {
     UserResponse getCurrentUser(String email);
 
     List<UserResponse> searchUsers(String query);
-
+    
+    List<UserResponse> getAllUsers();
+    
+    UserResponse updateUserRole(Long userId, String role);
 }
