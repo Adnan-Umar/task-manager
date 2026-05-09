@@ -12,6 +12,10 @@
   🌐 <b>Live API Base URL</b>: <a href="https://task-manager-production-7681.up.railway.app/">https://task-manager-production-7681.up.railway.app/</a>
 </p>
 
+### 🔑 Demo Credentials (for testing the live API)
+- **Admin**: `admin@taskmanager.com` | Password: `password`
+- **Member**: `member@taskmanager.com` | Password: `password`
+
 ---
 
 ## 📝 Description
