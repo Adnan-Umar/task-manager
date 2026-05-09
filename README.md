@@ -183,6 +183,54 @@ Explore the API interactively via Swagger UI:
 
 ---
 
+## 📡 API Endpoints Reference
+
+### Auth & Users
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Authenticate and receive JWT
+- `GET /api/auth/me` - Get current authenticated user profile
+- `GET /api/auth/search?query=...` - Search users by name or email
+- `GET /api/auth/users` - Get all users (Admin panel)
+- `PUT /api/auth/users/{userId}/role` - Update a user's global role (Admin only)
+
+### Projects
+- `POST /api/projects` - Create a new project
+- `GET /api/projects` - Get all projects for the current user
+- `GET /api/projects/{id}` - Get full project details
+- `PUT /api/projects/{id}` - Update project information
+- `DELETE /api/projects/{id}` - Delete a project
+
+### Project Members
+- `POST /api/projects/{id}/members` - Add a user to the project
+- `DELETE /api/projects/{id}/members/{userId}` - Remove a user from the project
+
+### Tasks
+- `POST /api/projects/{projectId}/tasks` - Create a new task in a project
+- `GET /api/projects/{projectId}/tasks` - Get all tasks for a project
+- `PATCH /api/projects/{projectId}/tasks/{taskId}/status` - Update task status
+- `DELETE /api/projects/{projectId}/tasks/{taskId}` - Delete a task
+
+### Comments
+- `POST /api/projects/{projectId}/tasks/{taskId}/comments` - Add a comment
+- `GET /api/projects/{projectId}/tasks/{taskId}/comments` - Get all comments on a task
+- `DELETE /api/projects/{projectId}/tasks/{taskId}/comments/{commentId}` - Delete a comment
+
+### Attachments
+- `POST /api/projects/{projectId}/tasks/{taskId}/attachments` - Upload a file
+- `GET /api/projects/{projectId}/tasks/{taskId}/attachments` - List file attachments
+- `GET /api/projects/{projectId}/tasks/{taskId}/attachments/{attachmentId}/download` - Download file
+- `DELETE /api/projects/{projectId}/tasks/{taskId}/attachments/{attachmentId}` - Delete file
+
+### Reports
+- `GET /api/projects/{projectId}/reports/excel` - Export tasks to Excel (.xlsx)
+- `GET /api/projects/{projectId}/reports/pdf` - Export tasks to PDF
+
+### Dashboard
+- `GET /api/dashboard` - Get overall project/task statistics
+- `GET /api/dashboard/my-tasks` - Get tasks assigned to the current user
+
+---
+
 ## 🚢 Deployment (CI/CD)
 
 This project is configured for automated deployment:
